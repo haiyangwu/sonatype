@@ -1,0 +1,20 @@
+group 'cn.mindstack'
+version '1.0'
+
+apply plugin: 'java'
+
+apply from: '../gradle-publish/maven-push-jar.gradle'
+
+sourceCompatibility = 1.5
+
+repositories {
+    mavenCentral()
+}
+
+javadoc {
+    options.charSet = 'UTF-8'
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
