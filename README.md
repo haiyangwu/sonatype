@@ -16,9 +16,63 @@
 下载地址 [GPG](https://www.gnupg.org/download/index.html)
 
 ### 生成密钥对 
-如图,然后生成的公钥上传至服务器 
+#### 命令行下生成密钥对
+##### 验证版本
+````
+$gpg --version
+
+gpg (GnuPG/MacGPG2) 2.0.28
+libgcrypt 1.6.3
+Copyright (C) 2015 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+````
+###### 生成密钥
+````
+$ gpg --gen-key
+````
+填写相关信息,最后需要输入一个passphrase，妥善保管这个口令，后面配置Gradle脚本时需要用到
+
+##### 查看公钥
+````
+$ gpg --list-keys
+
+/Users/tony/.gnupg/pubring.gpg
+------------------------------
+....
+pub   4096R/DAE9AF00 2016-03-30 [expires: 2020-03-30]
+uid       [ultimate] wuhaiyang <wuhaiyang1213@gmail.com>
+uid       [ultimate] [jpeg image of size 8453]
+sub   4096R/BF816FAC 2016-03-30 [expires: 2020-03-30]
+
+````
+输出的路径为公钥文件，DAE9AF00为keyId，需要上传给服务器
+
+##### 查看私钥
+````
+gpg --list-secret-keys
+
+Users/tony/.gnupg/secring.gpg
+------------------------------
+sec   4096R/DAE9AF00 2016-03-30 [expires: 2020-03-30]
+uid                  wuhaiyang <wuhaiyang1213@gmail.com>
+uid                  [jpeg image of size 8453]
+ssb   4096R/BF816FAC 2016-03-30
+````
+私钥文件路径在配置Gradle脚本时需要用到
+
+##### 上传公钥
+````
+$ gpg --keyserver hkp://pool.sks-keyservers.net --send-keys DAE9AF00
+````
+
+#### MAC生成密钥对
+可用GPGKeychain,如图,然后生成的公钥上传至服务器 
 
 ![MAC GPGKeychain](./pic/Snip20160402_0.png "MAC GPGKeychain")
+
+
 
 ## 配置Gradle脚本
 Gradle脚本使用了开源项目gradle-mvn-push，Thx Chris大神!
